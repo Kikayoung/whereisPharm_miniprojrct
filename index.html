@@ -194,7 +194,7 @@
     }
 
     $('#inquiryForm').on('submit', function(event) {
-        event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+        event.preventDefault();
 
         var formData = {
             name: $('#name').val(),
@@ -210,9 +210,9 @@
                 console.log("폼이 제출되었습니다.");
                 console.log("응답:", response);
 
-                $('#inquiryResult').text("문의가 성공적으로 제출되었습니다."); // 결과 표시
+                $('#inquiryResult').text("문의가 성공적으로 제출되었습니다.");
                 setTimeout(function() {
-                    $('#inquiryForm')[0].reset(); // 폼을 초기화합니다.
+                    $('#inquiryForm')[0].reset();
                 }, 100);
             },
             error: function(error) {
@@ -221,7 +221,7 @@
             }
         });
 
-        closePopup(); // 폼이 제출된 후 팝업을 닫습니다.
+        closePopup();
     });
 
     $('#closeButton').on('click', closePopup);
