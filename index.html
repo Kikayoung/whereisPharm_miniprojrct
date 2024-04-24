@@ -1,150 +1,131 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>카페, 약국, 식당 위치 안내</title>
-    <!-- Kakao 지도 API-->
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d60d064b374a2cbc480a782d90947366"></script>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <link href="css/styles.css" rel="stylesheet" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</head>
-<body>
-    <h1 id="mainTitle">현재 운영 중인 상점 찾기</h1>
-    <h3 id="categoryTitle">현재 운영중인 카페, 약국, 식당 중 원하시는 항목을 하나를 선택해 주세요.</h3>
-
-    <div class="container my-4"> 
-        <div id="options" class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="category" value="cafe" id="cafe" disabled>
-                <label class="form-check-label" for="cafe">카페</label>
-            </div>
-            
-            <div class="form-check"> 
-                <input class="form-check-input" type="radio" name="category" value="pharmacy" id="pharmacy">
-                <label class="form-check-label" for="pharmacy">약국</label>
-            </div>
-            
-            <div class="form-check"> 
-                <input class="form-check-input" type="radio" name="category" value="restaurant" id="restaurant" disabled>
-                <label class="form-check-label" for="restaurant">식당</label>
-            </div>
-        </div>
-    </div>
-    
-
-    <div id="map">
-        <!-- 지도 표시 -->
-    </div>
-
-    <script>
-        kakao.maps.load(function() {
-            var map = null;
-
-            $('input[name="category"]').change(function() {
-                var category = $(this).val();
-                
-                var title = '';
-                switch (category) {
-                    case 'cafe':
-                        title = '현재 운영중인 카페';
-                        break;
-                    case 'pharmacy':
-                        title = '현재 운영중인 약국';
-                        
-                        break;
-                    case 'restaurant':
-                        title = '현재 운영중인 식당';
-                        break;
-                    default:
-                        title = '카페, 약국, 식당 위치 안내';
-                }
-                $('#categoryTitle').text(title);
-
-            });
-
-            var container = document.getElementById('map');
-        });
-    </script>
-
-    <div class="container"> 
-        <h3 class="my-4">현재 시간 기준: <span id="currentTime"></span></h3>
-        <div class="text-right">
-            <button id="inquiryButton" class="btn btn-primary">문의하기</button>
-        </div>
-    </div>
-
-    <!-- 문의 게시판 -->
-    <!-- 팝업 -->
-    <div id="popup" style="display: none;">
-        <button id="closeButton" style="position: absolute; top: 5px; right: 5px;">X</button>
-        <div id="inquiry">
-            <h2>문의 게시판</h2>
-            <form id="inquiryForm" action="submit_inquiry.jsp" method="post">
-                <label for="name">이름:</label>
-                <input type="text" id="name" name="name" required><br><br>
-                <label for="email">이메일:</label>
-                <input type="email" id="email" name="email" required><br><br>
-                <label for="message">메시지:</label><br>
-                <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
-                <button type="submit">전송</button>
-            </form>
-            <div id="inquiryResult"></div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function() {
-    $('#inquiryButton').on('click', openPopup);
-
-    function openPopup() {
-        $('#popup').show();
-    }
-
-    function closePopup() {
-        $('#popup').hide();
-    }
-
-    $('#inquiryForm').on('submit', function(event) {
-        event.preventDefault();
-
-        var formData = {
-            name: $('#name').val(),
-            email: $('#email').val(),
-            message: $('#message').val()
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: 'submit_inquiry.jsp',
-            data: formData,
-            success: function(response) {
-                console.log("폼이 제출되었습니다.");
-                console.log("응답:", response);
-
-                $('#inquiryResult').text("문의가 성공적으로 제출되었습니다.");
-                setTimeout(function() {
-                    $('#inquiryForm')[0].reset();
-                }, 100);
-            },
-            error: function(error) {
-                $('#inquiryResult').text("문의 제출에 실패했습니다. 다시 시도하세요.");
-                console.error("오류:", error);
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Whewe is there?</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d60d064b374a2cbc480a782d90947366"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <style>
+            #map{
+                width: 100%;
+                height: 400px;
+                margin: auto;
             }
-        });
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#!">Find it there</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">where</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#!">약국</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="#!">카페</a></li>
+                                <li><a class="dropdown-item" href="#!">음식점</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+<form class="d-flex">
+    <button class="btn btn-outline-dark" type="button" id="inquiryButton">
+        <i class="bi bi-envelope-fill me-1"></i> 
+        문의하기
+    </button>
+</form>
 
-        closePopup();
+<!-- Inquiry Popup -->
+<div id="inquiryPopup" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 5px; z-index: 1000;">
+    <button id="closePopupButton" type="button" class="btn-close" aria-label="Close" style="position: absolute; top: 5px; right: 5px;"></button>
+    <div id="inquiryFormContainer">
+        <h2>문의 게시판</h2>
+        <form id="inquiryForm" action="submit_inquiry.jsp" method="post">
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="message">메시지:</label><br>
+            <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit">전송</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("inquiryButton").addEventListener("click", function() {
+        document.getElementById("inquiryPopup").style.display = "block";
     });
 
-    $('#closeButton').on('click', closePopup);
-});
+    document.getElementById("closePopupButton").addEventListener("click", function() {
+        document.getElementById("inquiryPopup").style.display = "none";
+    });
+</script>
 
-    </script>
-</body>
-
-<script src="./geolocation.js"></script>
-<script src="./main.js"></script>
-
+                </div>
+            </div>
+        </nav>
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6 border">
+                        <div id="map">
+                            지도가 들어와야 해요
+                            <!-- 지도 표시 -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container"> 
+                            <h3 class="my-4">현재 시간 기준: <span id="currentTime"></span></h3>
+                        </div>
+                        <h1 class="display-5 fw-bolder">현재 운영 중인 ???</h1>
+                        <div class="fs-5 mb-5">
+                            <!-- <span class="text-decoration-line-through">$45.00</span>
+                            <span>$40.00</span> -->
+                        </div>
+                        <p class="lead">아래의 드롭박스를 클릭하여 원하시는 항목을 선택해주세요!</p>
+                        <!-- <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div> -->
+                        <div class="dropdown">
+                            <button
+                              class="btn btn-secondary dropdown-toggle"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              현재 운영 중인 장소
+                            </button>
+                            <ul class="dropdown-menu" style="">
+                              <li><a class="dropdown-item" href="#">약국</a></li>
+                              <li><a class="dropdown-item" href="#">카페</a></li>
+                              <li><a class="dropdown-item" href="#">식당</a></li>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-4 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">KIMKAYOUNG@Miniproject Website 2024-4-25</p></div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    
+<script src="./js/geolocation.js"></script>
+<script src="./js/main.js"></script>
 </html>
