@@ -41,7 +41,7 @@ function displayMarker(locPosition, message) {
 }
 function loadExternalData() {
     $.ajax({
-        url: 'https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown?serviceKey=H3wVXR0ZoSWzmNinpKwJD5vBljllCZT25lNyCirNGkcArIM0%2FTZF7MhC1Dg9JlRV65mUTwCE88ea6kdoTee46g%3D%3D&pageNo=1&numOfRows=10',
+        url: 'https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown?serviceKey=H3wVXR0ZoSWzmNinpKwJD5vBljllCZT25lNyCirNGkcArIM0%2FTZF7MhC1Dg9JlRV65mUTwCE88ea6kdoTee46g%3D%3D&pageNo=1&numOfRows=10000',
         dataType: 'xml',
         success: function (data) {
             $(data).find('item').each(function () {
