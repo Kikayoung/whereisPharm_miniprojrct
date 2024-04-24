@@ -1,55 +1,65 @@
+// function openPopup() {
+//     $('#popup').show();
+// }
+
+// function closePopup() {
+//     $('#popup').hide();
+// }
+
+// $('#inquiryButton').on('click', openPopup);
+
+// $('#inquiryForm').on('submit', function(event) {
+//     $('#popup').hide();
+// });
+
+// $('#closeButton').on('click', closePopup);
+
+
+
+
+
+
 function openPopup() {
-    $('#popup').show();
+    document.getElementById('inquiryPopup').style.display = 'block'; 
 }
 
 function closePopup() {
-    $('#popup').hide();
+    document.getElementById('inquiryPopup').style.display = 'none'; 
 }
 
-$('#inquiryButton').on('click', openPopup);
+document.getElementById('inquiryButton').addEventListener('click', openPopup); 
+document.getElementById('closePopupButton').addEventListener('click', closePopup); 
 
-$('#inquiryForm').on('submit', function(event) {
-    $('#popup').hide();
+document.getElementById('inquiryForm').addEventListener('submit', function(event) {
+    if (!this.checkValidity()) {
+        event.preventDefault(); 
+        event.stopPropagation();
+    }
+    this.classList.add('was-validated'); 
 });
 
-$('#closeButton').on('click', closePopup);
 
 
 
+function displayFormattedTime() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    const period = hours >= 12 ? '오후' : '오전';
+    hours = hours % 12;
+    if (hours === 0) {
+        hours = 12; 
+    }
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
 
-
-function displayCurrentTime() {
-    var now = new Date(); 
-    var hours = now.getHours(); 
-    var minutes = now.getMinutes(); 
-    var seconds = now.getSeconds(); 
-
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    var timeString = `${hours}:${minutes}:${seconds}`; // 시:분:초
-    document.getElementById('currentTime').textContent = timeString;
+    const formattedTime = ` ${period} ${hours}시 ${formattedMinutes}분입니다.`;
+    document.getElementById('currentTime').textContent = formattedTime;
 }
 
-// 매 초마다 현재 시간 갱신
-setInterval(displayCurrentTime, 1000);
+document.addEventListener("DOMContentLoaded", displayFormattedTime);
 
-
-function displayCurrentTime() {
-    var now = new Date(); 
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    var seconds = now.getSeconds(); 
-
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    var timeString = hours + ':' + minutes + ':' + seconds; // 시:분:초
-    document.getElementById('currentTime').textContent = timeString;
-}
-setInterval(displayCurrentTime, 1000); // 1000ms = 1초
+setInterval(displayFormattedTime, 1000);
 
 
 $('input[name="category"]').change(function() {

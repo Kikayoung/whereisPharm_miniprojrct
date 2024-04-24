@@ -9,13 +9,17 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d60d064b374a2cbc480a782d90947366"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
         <link href="css/styles.css" rel="stylesheet" />
         <style>
             #map{
                 width: 100%;
-                height: 400px;
+                height: 600px;
                 margin: auto;
             }
+            
         </style>
     </head>
     <body>
@@ -37,39 +41,63 @@
                             </ul>
                         </li>
                     </ul>
-<form class="d-flex">
-    <button class="btn btn-outline-dark" type="button" id="inquiryButton">
-        <i class="bi bi-envelope-fill me-1"></i> 
-        문의하기
-    </button>
-</form>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="button" id="inquiryButton">
+                        <i class="bi bi-envelope-fill me-1"></i> 
+                        문의하기
+                    </button>
+                </form>
 
-<!-- Inquiry Popup -->
-<div id="inquiryPopup" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 5px; z-index: 1000;">
-    <button id="closePopupButton" type="button" class="btn-close" aria-label="Close" style="position: absolute; top: 5px; right: 5px;"></button>
-    <div id="inquiryFormContainer">
-        <h2>문의 게시판</h2>
-        <form id="inquiryForm" action="submit_inquiry.jsp" method="post">
-            <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="message">메시지:</label><br>
-            <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
-            <button type="submit">전송</button>
-        </form>
-    </div>
-</div>
+            <!-- Inquiry Popup -->
+                    <!-- <div id="inquiryPopup" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 5px; z-index: 1000;">
+                        <button id="closePopupButton" type="button" class="btn-close" aria-label="Close" style="position: absolute; top: 5px; right: 5px;"></button>
+                        <div id="inquiryFormContainer">
+                            <h2>문의 게시판</h2>
+                            <form id="inquiryForm" action="submit_inquiry.jsp" method="post">
+                                <label for="name">이름:</label>
+                                <input type="text" id="name" name="name" required><br><br>
+                                <label for="email">이메일:</label>
+                                <input type="email" id="email" name="email" required><br><br>
+                                <label for="message">메시지:</label><br>
+                                <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+                                <button type="submit">전송</button>
+                            </form>
+                        </div>
+                    </div> -->
+                    <!-- 부트스트랩 스타일 폼 -->
+                <div id="inquiryPopup" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 5px; z-index: 1000;">
+                    <button id="closePopupButton" type="button" class="btn-close" aria-label="닫기" style="position: absolute; top: 5px; right: 5px;"></button>
+                    
+                    <h2>문의 게시판</h2>
+                    <form id="inquiryForm" action="submit_inquiry.jsp" method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">이름:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div class="invalid-feedback">
+                                이름을 입력해주세요.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">이메일:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">
+                                유효한 이메일을 입력해주세요.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">메시지:</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                            <div class="invalid-feedback">
+                                메시지를 입력해주세요.
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">전송</button>
+                    </form>
+                </div>
 
-<script>
-    document.getElementById("inquiryButton").addEventListener("click", function() {
-        document.getElementById("inquiryPopup").style.display = "block";
-    });
-
-    document.getElementById("closePopupButton").addEventListener("click", function() {
-        document.getElementById("inquiryPopup").style.display = "none";
-    });
-</script>
 
                 </div>
             </div>
@@ -85,8 +113,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="container"> 
-                            <h3 class="my-4">현재 시간 기준: <span id="currentTime"></span></h3>
+                            <h3 class="my-4">현재 시간 <span id="currentTime"></span></h3>
                         </div>
+                        
                         <h1 class="display-5 fw-bolder">현재 운영 중인 ???</h1>
                         <div class="fs-5 mb-5">
                             <!-- <span class="text-decoration-line-through">$45.00</span>
