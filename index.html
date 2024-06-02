@@ -21,6 +21,7 @@
             }
             
         </style>
+        
         <script>
             function openChatPopup() {
                 const popup = window.open(
@@ -28,14 +29,12 @@
                     'ChatbotPopup', // 팝업 창 이름
                     'width=420,height=620' // 팝업 창의 크기
                 );
-
+    
                 if (!popup || popup.closed || typeof popup.closed == 'undefined') {
                     alert('팝업 창이 차단되었습니다. 팝업 차단 설정을 확인하세요.');
                 }
             }
         </script>
-
-
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -57,7 +56,7 @@
                         </li>
                     </ul>
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="button" id="inquiryButton">
+                    <button class="btn btn-outline-dark me-3" type="button" id="inquiryButton">
                         <i class="bi bi-envelope-fill me-1"></i> 
                         문의하기
                     </button>
@@ -65,8 +64,6 @@
                         <i class="bi bi-envelope-fill me-1"></i>
                         챗봇과 대화하기
                     </button>
-
-                </form>
                 <div id="inquiryPopup" style="display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 5px; z-index: 1000;">
                     <button id="closePopupButton" type="button" class="btn-close" aria-label="닫기" style="position: absolute; top: 5px; right: 5px;"></button>
                     
@@ -95,52 +92,60 @@
                                 메시지를 입력해주세요.
                             </div>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary">전송</button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </nav>
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6 border">
-                    <div id="map">
-                        지도가 들어와야 해요
-                        <!-- 지도 표시 -->
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="container">
-                        <h3 class="my-4">현재 시간 <span id="currentTime"></span></h3>
-                    </div>
-
-                    <h1 class="display-5 fw-bolder">현재 운영 중인 약국</h1>
-                    <div class="fs-5 mb-5">
-                        <!-- <span class="text-decoration-line-through">$45.00</span>
-                        <span>$40.00</span> -->
-                    </div>
-                    <p class="lead">아래의 드롭박스를 클릭하여 원하시는 항목을 선택해주세요!</p>
-                    <!-- <div class="d-flex">
-                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                    </div> -->
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">현재 운영 중인 장소</button>
-                        <ul class="dropdown-menu" style="">
-                          <li><a class="dropdown-item" href="#">약국</a></li>
-                          <li><a class="dropdown-item" href="#">카페</a></li>
-                          <li><a class="dropdown-item" href="#">식당</a></li>
-                        </ul>
-                      </div>
                 </div>
             </div>
-        </div>
-    </section>
-
+        </nav>
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6 border">
+                        <div id="map">
+                            지도가 들어와야 해요
+                            <!-- 지도 표시 -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container"> 
+                            <h3 class="my-4">현재 시간 <span id="currentTime"></span></h3>
+                        </div>
+                        
+                        <h1 class="display-5 fw-bolder">현재 운영 중인 약국</h1>
+                        <div class="fs-5 mb-5">
+                            <!-- <span class="text-decoration-line-through">$45.00</span>
+                            <span>$40.00</span> -->
+                        </div>
+                        <p class="lead">아래의 드롭박스를 클릭하여 원하시는 항목을 선택해주세요!</p>
+                        <!-- <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div> -->
+                        <div class="dropdown">
+                            <button
+                              class="btn btn-secondary dropdown-toggle"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              현재 운영 중인 장소
+                            </button>
+                            <ul class="dropdown-menu" style="">
+                              <li><a class="dropdown-item" href="#">약국</a></li>
+                              <li><a class="dropdown-item" href="#">카페</a></li>
+                              <li><a class="dropdown-item" href="#">식당</a></li>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
         <footer class="py-4 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">KIMKAYOUNG@Miniproject Website 2024-4-25</p></div>
         </footer>
@@ -150,3 +155,4 @@
 <script src="./js/geolocation.js"></script>
 <script src="./js/main.js"></script>
 </html>
+

@@ -1,3 +1,6 @@
+import config from "./apikey";
+
+
 var mapContainer = document.getElementById('map'),
     mapOption = {
         center: new kakao.maps.LatLng(37.484190, 126.896923),
@@ -41,7 +44,7 @@ function displayMarker(locPosition, message) {
 }
 function loadExternalData() {
     $.ajax({
-        url: 'https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown?serviceKey=H3wVXR0ZoSWzmNinpKwJD5vBljllCZT25lNyCirNGkcArIM0%2FTZF7MhC1Dg9JlRV65mUTwCE88ea6kdoTee46g%3D%3D&pageNo=1&numOfRows=15000',
+        url: config.LOCATION_API,
         dataType: 'xml',
         success: function (data) {
             $(data).find('item').each(function () {
